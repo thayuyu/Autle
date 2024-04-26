@@ -1,7 +1,113 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Autle</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>This is Autle</h1>
 
-Welcome to your new app.
+<style>
+    /* Add some padding to the table cells */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    /* Add border to the table and cells */
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #dddddd;
+        text-align: left;
+    }
+
+    .custom-select {
+        padding: 5px;
+    }
+
+    .option-image {
+        width: 5px; /* Adjust image size as needed */
+        height: 5px;
+        vertical-align: middle;
+        margin-right: 5px; /* Adjust spacing between image and text */
+    }
+</style>
+
+<InputSelect @bind-Value="selectedCar" class="custom-select">
+    <option value="">Select an option</option>
+    @foreach (var item in CarList)
+    {
+        <option value="@item">@item.Name <img src="C:\M306\Autle\Autle\wwwroot\images\image3.png" class="option-image" /></option>
+    }
+</InputSelect>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Car Type</th>
+            <th>Horse Power</th>
+            <th>Engine</th>
+            <th>Doors</th>
+            <th>Model Year</th>
+            <th>Seconds 0-100</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Guesses)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Manufacturer</td>
+                <td>@item.CarType</td>
+                <td>@item.HorsePwr.ToString()</td>
+                <td>@item.Engine</td>
+                <td>@item.Doors.ToString()</td>
+                <td>@item.ModelYear.ToString()</td>
+                <td>@item.ZeroToHundred.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@code{
+    static public List<Car> CarList = new List<Car> { new Car(1,"R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4) };// GetCars();
+    Car SecretCar = GetRandomCar(CarList);
+    static public List<Car> Guesses = new List<Car> { new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4) };
+    public Car selectedCar;
+
+    static public List<Car> GetCars()
+    {
+      // TODO: Insert here data
+        List<Car> list = new List<Car>
+        {
+            //new Car(),
+            //new Car(),
+            //new Car(),
+            //new Car(),
+        };
+
+        return list;
+    }
+
+    static public void GuessCar(Car SecretCar, Car GuessedCar)
+    {
+
+    }
+
+    static public Car GetRandomCar(List<Car> list)
+    {
+        Random i = new Random();
+        int index = i.Next(0, list.Count);
+        return list[index];
+    }
+}
