@@ -1,11 +1,11 @@
 ﻿@page "/"
 
+
 <PageTitle>Autle</PageTitle>
 
 <h1>This is Autle</h1>
 
 <style>
-    /* Add some padding to the table cells */
     table {
         border-collapse: collapse;
         width: 100%;
@@ -15,7 +15,6 @@
         padding: 10px;
     }
 
-    /* Add border to the table and cells */
     th {
         border: 1px solid #dddddd;
         text-align: left;
@@ -28,23 +27,19 @@
 
     .custom-select {
         padding: 5px;
-    }
-
-    .option-image {
-        width: 5px; /* Adjust image size as needed */
-        height: 5px;
-        vertical-align: middle;
-        margin-right: 5px; /* Adjust spacing between image and text */
+        width: 100%;
     }
 </style>
 
-<InputSelect @bind-Value="selectedCar" class="custom-select">
+<select class="custom-select" @bind="selectedCarName">
     <option value="">Select an option</option>
     @foreach (var item in CarList)
     {
-        <option value="@item">@item.Name <img src="C:\M306\Autle\Autle\wwwroot\images\image3.png" class="option-image" /></option>
+        <option value="@item.Name">@item.Name</option>
     }
-</InputSelect>
+</select>
+
+<button @onclick="@SubmitGuess">submit</button>
 
 <table>
     <thead>
@@ -60,8 +55,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Guesses)
+        @if (selectedCar != null)
         {
+            
+        
+          @foreach (var item in Guesses)
+          {
             <tr>
                 <td>@item.Name</td>
                 <td>@item.Manufacturer</td>
@@ -72,24 +71,37 @@
                 <td>@item.ModelYear.ToString()</td>
                 <td>@item.ZeroToHundred.ToString()</td>
             </tr>
+          }
         }
     </tbody>
 </table>
 
+@if (selectedCar == null)
+{
+    <div>nothing has been selected yet</div>
+}
 
-
+@if (chosen)
+{
+    <div>worked</div>
+}
 
 @code{
-    static public List<Car> CarList = new List<Car> { new Car(1,"R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4) };// GetCars();
+    static public List<Car> CarList = GetCars();
     Car SecretCar = GetRandomCar(CarList);
-    static public List<Car> Guesses = new List<Car> { new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), new Car(2, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4) };
-    public Car selectedCar;
+    static public List<Car> Guesses = new List<Car>();
+    public Car selectedCar = null;
+    public bool chosen = false;
+    public string selectedCarName = "";
 
     static public List<Car> GetCars()
     {
-      // TODO: Insert here data
+        // TODO: Insert here data
         List<Car> list = new List<Car>
         {
+            new Car(1, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), 
+            new Car(2, "Aventador", "Lammborghini", "Super", 400, "Lammmbo Engine", 3, 2020, 2), 
+            new Car(3, "Sprinter", "Toyotaa", "compact", 500, "TOYOTA", 3, 2005, 5) 
             //new Car(),
             //new Car(),
             //new Car(),
@@ -101,6 +113,11 @@
 
     static public void GuessCar(Car SecretCar, Car GuessedCar)
     {
+        Guesses.Add(GuessedCar);
+        if (GuessedCar.CID == SecretCar.CID)
+        {
+
+        }
 
     }
 
@@ -109,5 +126,42 @@
         Random i = new Random();
         int index = i.Next(0, list.Count);
         return list[index];
+    }
+
+    public async Task SubmitGuess()
+    {
+        chosen = true;
+
+        // if(!ListContains(Guesses, selectedCarName))
+        // {
+        //     selectedCar = CarList.Find(car => car.Name == selectedCarName);
+        //     GuessCar(SecretCar, selectedCar);
+        // }
+    }
+
+    // public void SelectedChoiceChanged(ChangeEventArgs e)
+    // {
+    //     chosen = true;
+    //     if (e.Value is not null)
+    //     {        
+    //         selectedCar = (Car)e.Value;
+            
+    //         if (!ListContains(Guesses, selectedCar))
+    //        {
+    //           GuessCar(SecretCar, selectedCar);
+    //        }
+    //     }
+    // }
+
+    public bool ListContains(List<Car> list, string car)
+    {
+        foreach(var item in list)
+        {
+            if (car == item.Name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

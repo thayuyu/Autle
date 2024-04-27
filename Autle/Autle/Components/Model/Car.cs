@@ -30,5 +30,9 @@ namespace Autle.Components.Model
             ModelYear = modelyear;
             ZeroToHundred = zerotohundred;
         }
+        public Car (string name)
+        {
+            Name = name;
+        }
     }
 }
