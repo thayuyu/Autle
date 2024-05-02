@@ -57,9 +57,7 @@
     <tbody>
         @if (selectedCar != null)
         {
-            
-        
-          @foreach (var item in Guesses)
+          @foreach (var item in OrderedGuesses)
           {
             <tr>
                 <td>@item.Name</td>
@@ -76,19 +74,33 @@
     </tbody>
 </table>
 
-@if (selectedCar == null)
+<p>@SecretCar.Name</p>
+@if (IsWin != 0)
+{
+    <div class="text-bg-success p-3">YOU WON! ! ! YIPPIE </div>
+}
+
+@if (notchosen == true)
 {
     <div>nothing has been selected yet</div>
+}
+@if (alrchosen == true)
+{
+    <div>This car has already been chosen</div>
 }
 
 
 @code{
     static public List<Car> CarList = GetCars();
     Car SecretCar = GetRandomCar(CarList);
-    static public List<Car> Guesses = new List<Car>();
+    public List<Car> Guesses = new List<Car>();
+    public List<Car> OrderedGuesses = new List<Car>();
+
     public Car selectedCar = null;
-    public bool chosen;
+    public bool alrchosen;
     public string selectedCarName = "";
+    public bool notchosen = false;
+    public uint IsWin = 0;
 
     static public List<Car> GetCars()
     {
@@ -96,7 +108,7 @@
         List<Car> list = new List<Car>
         {
             new Car(1, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4), 
-            new Car(2, "Aventador", "Lammborghini", "Super", 400, "Lammmbo Engine", 3, 2020, 2), 
+            new Car(2, "Aventador", "Lamborghini", "Super", 400, "Lambo Engine", 3, 2020, 2), 
             new Car(3, "Sprinter", "Toyotaa", "compact", 500, "TOYOTA", 3, 2005, 5) 
             //new Car(),
             //new Car(),
@@ -107,12 +119,19 @@
         return list;
     }
 
-    static public void GuessCar(Car SecretCar, Car GuessedCar)
+    public void GuessCar(Car SecretCar, Car GuessedCar)
     {
+
         Guesses.Add(GuessedCar);
+        // OrderedGuesses = Guesses.OrderByDescending((item, index) => index).ToList();
         if (GuessedCar.CID == SecretCar.CID)
         {
-
+            //TODO: Add win screen/message
+            IsWin = 1; 
+        }
+        else
+        {
+            //TODO: Check what's similar and show in table
         }
 
     }
@@ -126,13 +145,25 @@
 
     public void SubmitGuess()
     {
-        chosen = true;
-
-         if(!ListContains(Guesses, selectedCarName) && GuessCar != null)
-         {
-             selectedCar = CarList.Find(car => car.Name == selectedCarName);
-             GuessCar(SecretCar, selectedCar);
-         }
+        notchosen = false;
+        alrchosen = false;
+        if (selectedCarName == null|| selectedCarName == "")
+        {
+            notchosen = true;
+        }
+        else
+        {
+            if (ListContains(Guesses, selectedCarName))
+            {
+                alrchosen = true;
+            }
+            else
+            {
+                selectedCar = CarList.Find(car => car.Name == selectedCarName);
+                GuessCar(SecretCar, selectedCar);
+            }
+        }
+        
     }
 
     // public void SelectedChoiceChanged(ChangeEventArgs e)
