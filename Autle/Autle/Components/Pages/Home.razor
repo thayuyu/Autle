@@ -7,40 +7,120 @@
 <h1>This is Autle</h1>
 
 <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
     table {
         border-collapse: collapse;
         width: 100%;
+        margin-top: 20px;
     }
 
     th, td {
         padding: 10px;
+        text-align: center;
+        border: 2px solid #333;
     }
 
     th {
-        border: 1px solid #dddddd;
-        text-align: left;
-    }
-
-    td {
-        border: 1px solid #dddddd;
-        text-align: left;
+        background-color: #ddd;
     }
 
     .custom-select {
-        padding: 5px;
+        padding: 10px;
         width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+        width: 300px;
+    }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+    .result-cell {
+        font-weight: bold;
+    }
+
+    .correct {
+        background-color: #4CAF50;
+    }
+
+    .incorrect {
+        background-color: #E34234;
+    }
+
+    .nearcorrect {
+        background-color: orange;
+    }
+
+    .win-message {
+        background-color: #4CAF50;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .error-message {
+        color: #FF0000;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .selected-car {
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-top: 20px;
     }
 </style>
 
-<select class="custom-select" @bind="selectedCarName">
-    <option value="">Select an option</option>
-    @foreach (var item in CarList)
-    {
-        <option value="@item.Name">@item.Name</option>
-    }
-</select>
+@if (IsWin == 0)
+{
+    <select class="custom-select" @bind="selectedCarName">
+        <option value="">Select a car</option>
+        @foreach (var item in CarList)
+        {
+            <option value="@item.Name">@item.Manufacturer @item.Name</option>
+        }
+    </select>
+    <button class="btn" @onclick="SubmitGuess">Submit</button>
+}
+else
+{
+    <select class="custom-select" @bind="selectedCarName" disabled>
+        <option value="">Select a car</option>
+        @foreach (var item in CarList)
+        {
+            <option value="@item.Name">@item.Manufacturer @item.Name</option>
+        }
+    </select>
+    <button class="btn" disabled>Submit</button>
+}
 
-<button class="btn btn-primary" @onclick="SubmitGuess">Submit</button>
 <table>
     <thead>
         <tr>
@@ -51,51 +131,230 @@
             <th>Engine</th>
             <th>Doors</th>
             <th>Model Year</th>
-            <th>Seconds 0-100</th>
+            <th>0-100 km/h (s)</th>
         </tr>
     </thead>
     <tbody>
         @if (selectedCar != null)
         {
-          @foreach (var item in OrderedGuesses)
-          {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Manufacturer</td>
-                <td>@item.CarType</td>
-                <td>@item.HorsePwr.ToString()</td>
-                <td>@item.Engine</td>
-                <td>@item.Doors.ToString()</td>
-                <td>@item.ModelYear.ToString()</td>
-                <td>@item.ZeroToHundred.ToString()</td>
-            </tr>
-          }
+            @foreach (var item in Guesses)
+            {
+                <tr>
+                    @if (item.Name == SecretCar.Name)
+                    {
+                        <td class="correct">@item.Name</td>
+                    }
+                    else
+                    {
+                        <td class="incorrect">@item.Name</td>
+                    }
+
+                    @if (item.Manufacturer == SecretCar.Manufacturer)
+                    {
+                        <td class="correct">@item.Manufacturer</td>
+                    }
+                    else
+                    {
+                        <td class="incorrect">@item.Manufacturer</td>
+                    }
+
+                    @if (item.CarType == SecretCar.CarType)
+                    {
+                        <td class="correct">@item.CarType</td>
+                    }
+                    else
+                    {
+                        <td class="incorrect">@item.CarType</td>
+                    }
+
+                    @if (item.HorsePwr == SecretCar.HorsePwr)
+                    {
+                        <td class="correct">@item.HorsePwr</td>
+                    }
+                    else if (item.HorsePwr > SecretCar.HorsePwr)
+                    {
+                        @if (item.HorsePwr - SecretCar.HorsePwr <= 50)
+                        {
+                            <td class="nearcorrect">
+                                @item.HorsePwr.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.HorsePwr.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+                    }
+                    else if (item.HorsePwr < SecretCar.HorsePwr)
+                    {
+                        @if (SecretCar.HorsePwr - item.HorsePwr <= 50)
+                        {
+                            <td class="nearcorrect">
+                                @item.HorsePwr.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.HorsePwr.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                    }
+
+                    @if (item.Engine == SecretCar.Engine)
+                    {
+                        <td class="correct">@item.Engine</td>
+                    }
+                    else
+                    {
+                        <td class="incorrect">@item.Engine</td>
+                    }
+
+                    @if (item.Doors == SecretCar.Doors)
+                    {
+                        <td class="correct">@item.Doors.ToString()</td>
+                    }
+                    else if (item.Doors > SecretCar.Doors)
+                    {
+                        <td class="incorrect">
+                            @item.Doors.ToString() <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                            </svg>
+                        </td>
+                    }
+                    else if (item.Doors < SecretCar.Doors)
+                    {
+                        <td class="incorrect">
+                            @item.Doors <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                            </svg>
+                        </td>
+                    }
+
+                    @if (item.ModelYear == SecretCar.ModelYear)
+                    {
+                        <td class="correct">@item.ModelYear.ToString()</td>
+                    }
+                    else if (item.ModelYear > SecretCar.ModelYear)
+                    {
+                        @if (item.ModelYear - SecretCar.ModelYear <= 5)
+                        {
+                            <td class="nearcorrect">
+                                @item.ModelYear.ToString() <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.ModelYear.ToString() <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+
+                    }
+                    else if (item.ModelYear < SecretCar.ModelYear)
+                    {
+                        @if (SecretCar.ModelYear - item.ModelYear <= 5)
+                        {
+                            <td class="nearcorrect">
+                                @item.ModelYear.ToString() <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.ModelYear.ToString() <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                    }
+
+                    @if (item.ZeroToHundred == SecretCar.ZeroToHundred)
+                    {
+                        <td class="correct">@item.ZeroToHundred.ToString()s</td>
+                    }
+                    else if (item.ZeroToHundred > SecretCar.ZeroToHundred)
+                    {
+                        @if (item.ZeroToHundred - SecretCar.ZeroToHundred <= 0.5)
+                        {
+                            <td class="nearcorrect">
+                                @item.ZeroToHundred.ToString()s <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.ZeroToHundred.ToString()s <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+                                </svg>
+                            </td>
+                        }
+                    }
+                    else if (item.ZeroToHundred < SecretCar.ZeroToHundred)
+                    {
+                        @if (SecretCar.ZeroToHundred - item.ZeroToHundred <= 0.5)
+                        {
+                            <td class="nearcorrect">
+                                @item.ZeroToHundred.ToString()s <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="incorrect">
+                                @item.ZeroToHundred.ToString()s <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
         }
     </tbody>
 </table>
 
-<p>@SecretCar.Name</p>
 @if (IsWin != 0)
 {
-    <div class="text-bg-success p-3">YOU WON! ! ! YIPPIE </div>
+    <div class="win-message">YOU WON! CONGRATULATIONS!</div>
+    <button class="btn" @onclick="Reset">Play again!</button>
 }
 
-@if (notchosen == true)
+@if (notchosen)
 {
-    <div>nothing has been selected yet</div>
+    <div class="error-message">Please select a car before submitting.</div>
 }
-@if (alrchosen == true)
+
+@if (alrchosen)
 {
-    <div>This car has already been chosen</div>
+    <div class="error-message">This car has already been chosen.</div>
 }
+
+
 
 
 @code{
     static public List<Car> CarList = GetCars();
     Car SecretCar = GetRandomCar(CarList);
     public List<Car> Guesses = new List<Car>();
-    public List<Car> OrderedGuesses = new List<Car>();
-
     public Car selectedCar = null;
     public bool alrchosen;
     public string selectedCarName = "";
@@ -121,19 +380,12 @@
 
     public void GuessCar(Car SecretCar, Car GuessedCar)
     {
-
         Guesses.Add(GuessedCar);
-        // OrderedGuesses = Guesses.OrderByDescending((item, index) => index).ToList();
         if (GuessedCar.CID == SecretCar.CID)
         {
-            //TODO: Add win screen/message
+  
             IsWin = 1; 
         }
-        else
-        {
-            //TODO: Check what's similar and show in table
-        }
-
     }
 
     static public Car GetRandomCar(List<Car> list)
@@ -145,40 +397,39 @@
 
     public void SubmitGuess()
     {
-        notchosen = false;
-        alrchosen = false;
-        if (selectedCarName == null|| selectedCarName == "")
+        if (IsWin == 0)
         {
-            notchosen = true;
-        }
-        else
-        {
-            if (ListContains(Guesses, selectedCarName))
+            notchosen = false;
+            alrchosen = false;
+            if (selectedCarName == null || selectedCarName == "")
             {
-                alrchosen = true;
+                notchosen = true;
             }
             else
             {
-                selectedCar = CarList.Find(car => car.Name == selectedCarName);
-                GuessCar(SecretCar, selectedCar);
+                if (ListContains(Guesses, selectedCarName))
+                {
+                    alrchosen = true;
+                }
+                else
+                {
+                    selectedCar = CarList.Find(car => car.Name == selectedCarName);
+                    GuessCar(SecretCar, selectedCar);
+                }
             }
         }
-        
     }
 
-    // public void SelectedChoiceChanged(ChangeEventArgs e)
-    // {
-    //     chosen = true;
-    //     if (e.Value is not null)
-    //     {        
-    //         selectedCar = (Car)e.Value;
-            
-    //         if (!ListContains(Guesses, selectedCar))
-    //        {
-    //           GuessCar(SecretCar, selectedCar);
-    //        }
-    //     }
-    // }
+    public void Reset()
+    {
+        notchosen = false;
+        alrchosen = false;
+        IsWin = 0;
+        Guesses = new List<Car>();
+        selectedCar = null;
+        selectedCarName = "";
+        SecretCar = GetRandomCar(CarList);
+    }
 
     public bool ListContains(List<Car> list, string car)
     {

@@ -16,9 +16,9 @@ namespace Autle.Components.Model
         public string Engine { get; set; }
         public int Doors { get; set; }
         public int ModelYear { get; set; }
-        public int ZeroToHundred { get; set; }
+        public double ZeroToHundred { get; set; }
 
-        public Car(int cid, string name, string manufacturer, string cartype, int horsepwr, string engine, int doors, int modelyear, int zerotohundred)
+        public Car(int cid, string name, string manufacturer, string cartype, int horsepwr, string engine, int doors, int modelyear, double zerotohundred)
         {
             CID = cid;
             Name = name;
