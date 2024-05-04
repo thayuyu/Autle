@@ -17,8 +17,9 @@ namespace Autle.Components.Model
         public int Doors { get; set; }
         public int ModelYear { get; set; }
         public double ZeroToHundred { get; set; }
+        public string ImgLink { get; set; }
 
-        public Car(int cid, string name, string manufacturer, string cartype, int horsepwr, string engine, int doors, int modelyear, double zerotohundred)
+        public Car(int cid, string name, string manufacturer, string cartype, int horsepwr, string engine, int doors, int modelyear, double zerotohundred, string imgLink)
         {
             CID = cid;
             Name = name;
@@ -29,6 +30,7 @@ namespace Autle.Components.Model
             Doors = doors;
             ModelYear = modelyear;
             ZeroToHundred = zerotohundred;
+            ImgLink = imgLink;  
         }
         public Car (string name)
         {
