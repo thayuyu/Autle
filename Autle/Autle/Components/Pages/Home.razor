@@ -129,15 +129,19 @@ else
         height: 45px;
     }
 
+    .car-option{
+      padding:7px;
+      border: 1px solid black;
+    }
 </style>
 
 @if (IsWin == 0 && difficulty != "0")
 {
-    <select class="custom-select" @bind="selectedCarName">
-        <option value="">Select a car</option>
+    <select class="custom-select" size="@selSize" @onchange="ChangeSelSize">
+        <option value="" selected disabled hidden>Select A Car</option>
         @foreach (var item in CarList)
         {
-            <option value="@item.Name">@item.Manufacturer @item.Name</option>
+            <option class="car-option" value="@item.Name">@item.Manufacturer @item.Name</option>
         }
     </select>
     <button class="btn" @onclick="SubmitGuess">Submit</button>
@@ -145,7 +149,7 @@ else
 else
 {
     <select class="custom-select" @bind="selectedCarName" disabled>
-        <option value="">Select a car</option>
+        <option value="">Select A Car</option>
         @foreach (var item in CarList)
         {
             <option value="@item.Name">@item.Manufacturer @item.Name</option>
@@ -157,7 +161,6 @@ else
 <table>
     <thead>
         <tr>
-            <th>Car Image</th>
             <th>Name</th>
             <th>Manufacturer</th>
             <th>Car Type</th>
@@ -177,12 +180,10 @@ else
                     @if (item.Name == SecretCar.Name)
                     {
 
-                        <td class="correct"><img src="/images/@item.ImgLink"/></td>
                         <td class="correct">@item.Name</td>
                     }
                     else
                     {
-                        <td class="incorrect"><img src="/images/@item.ImgLink"/></td>
                         <td class="incorrect">@item.Name</td>
                     }
 
@@ -206,7 +207,7 @@ else
 
                     @if (item.HorsePwr == SecretCar.HorsePwr)
                     {
-                        <td class="correct">@item.HorsePwr</td>
+                        <td class="correct">@item.HorsePwr HP</td>
                     }
                     else if (item.HorsePwr > SecretCar.HorsePwr)
                     {
@@ -408,6 +409,7 @@ else if (IsWin == 2)
     public string difficulty = "0";
     public int iteration = 1;
     public int? maxIterations = 0;
+    public int selSize = 1;
 
 
 
@@ -426,6 +428,8 @@ else if (IsWin == 2)
         difficulty = "0";
         iteration = 1;
         maxIterations = 0;
+        selSize = 1;
+
     }
 
     /// <summary>
@@ -442,7 +446,7 @@ else if (IsWin == 2)
         SecretCar = GetRandomCar(CarList);
         iteration = 1;
         maxIterations = 0;
-
+        selSize = 1;
     }
 
     ///  <summary>
@@ -454,13 +458,35 @@ else if (IsWin == 2)
         // TODO: Insert here data
         List<Car> list = new List<Car>
         {
-            new Car(1, "R8", "Audi", "Coupe", 50, "Basic Engine", 5, 2019, 4, "R8.png"), 
-            new Car(2, "Aventador", "Lamborghini", "Super", 400, "Lambo Engine", 3, 2020, 2, "Aventador.png" ), 
-            new Car(3, "Sprinter", "Toyotaa", "compact", 500, "TOYOTA", 3, 2005, 5, "Sprinter.png") 
-            //new Car(),
-            //new Car(),
-            //new Car(),
-            //new Car(),
+            new Car(1, "Skyline R34 GT-R", "Nissan", "Mid-Sized", 280, "RB26DETT Engine", 2, 1998, 4.8), 
+            new Car(2, "350Z", "Nissan", "Coupe", 280, "3.5 L VQ35DE Engine", 2, 2002, 5.8),
+            new Car(3, "R35 GT-R", "Nissan", "Coupe", 570, "VR38DETT Engine", 2, 2005, 2.8),
+            new Car(4, "Sprinter Trueno", "Toyota", "Coupe", 168, "1.6 L 2T-G DOHC I4 Engine", 2, 1972, 8.5),
+            new Car(5, "Toyota Corolla", "Toyota", "Compact", 169, "1.5 L 1NZ-FE Engine", 4, 1966, 7.5),
+            /* TODO: Finish
+            new Car(6, "Toyota Camry", "Toyota", "Mid-Sized", 00, "2.5 L HSD Engine", 00, 0000, 0.0),
+            new Car(7, "Toyota Prius", "Toyota", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(8, "Toyota Hilux", "Toyota", "Pickup Truck", 00, "", 00, 0000, 0.0),
+            new Car(9, "Toyota Supra", "Toyota", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(10, "Tesla Cybertruck", "Tesla", "Pickup Truck", 00, "", 00, 0000, 0.0),
+            new Car(11, "Ford Mustang", "Ford", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(12, "Ford F-150", "Ford", "Pickup Truck", 00, "", 00, 0000, 0.0),
+            new Car(13, "Ford Fiesta", "Ford", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(14, "Ford Focus", "Ford", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(15, "Ford Model T", "Ford", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(16, "Honda NSX", "Honda", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(17, "Honda Civic Type R", "Honda", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(18, "BMW i8", "BMW", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(19, "BMW i3", "BMW", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(20, "BMW 4 Series G22", "BMW", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(21, "Subaru Impreza", "Subaru", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(22, "Hyundai i20 N", "Hyundai", "Compact", 00, "", 00, 0000, 0.0),
+            new Car(23, "Audi R8", "Audi", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(24, "Audi TT Coupé", "Audi", "Coupe", 00, "", 00, 0000, 0.0),
+            new Car(25, "Jeep Willys MB", "Jeep", "SUV", 00, "", 00, 0000, 0.0),
+            new Car(26, "Porsche Cayenne Coupé", "Porsche", "SUV", 00, "", 00, 0000, 0.0),
+            new Car(27, "Porsche 911 Carerra", "Porsche", "Coupe", 00, "", 00, 0000, 0.0)
+            */
         };
 
         return list;
@@ -499,7 +525,7 @@ else if (IsWin == 2)
         {
             if (maxIterations == null)
             {
-                
+
             } 
             else if (maxIterations != 0 && iteration < maxIterations)
             {
@@ -553,6 +579,11 @@ else if (IsWin == 2)
         }
     }
 
+    public void ChangeSelSize(ChangeEventArgs e)
+    {
+        selectedCarName = e.Value.ToString();
+        selSize = 4;
+    }
 
     /// <summary>
     /// basic function to check if a list contains the chosen car name
