@@ -378,7 +378,7 @@ else
 }
 else if (IsWin == 2)
 {
-    <div class="lose-message">You lost, want to try again?</div>
+    <div class="lose-message">You lost, want to try again? The Car was: @SecretCar.Manufacturer @SecretCar.Name</div>
     <button class="btn" @onclick="DifReset">Have another go!</button>
     <button class="btn" @onclick="Reset">Change Difficulty?</button>
 
@@ -582,7 +582,7 @@ else if (IsWin == 2)
     public void ChangeSelSize(ChangeEventArgs e)
     {
         selectedCarName = e.Value.ToString();
-        selSize = 4;
+        selSize = 7;
     }
 
     /// <summary>
