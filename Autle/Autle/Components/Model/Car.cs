@@ -1,10 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
-using System.Security.Cryptography.Xml;
-
-namespace Autle.Components.Model
+﻿namespace Autle.Components.Model
 {
     public class Car
     {
