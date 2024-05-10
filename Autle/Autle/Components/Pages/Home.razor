@@ -501,18 +501,17 @@ else if (IsWin == 2)
     /// <param name="GuessedCar">Is the car that has just been guessed</param>
     public void GuessCar(Car SecretCar, Car GuessedCar)
     {
-        // TODO: change amount of iterations if difficulty
         if (difficulty == "Easy")
         {
             maxIterations = null;
         }
         else if (difficulty == "Medium")
         {
-            maxIterations = 2;
+            maxIterations = 10;
         }
         else if (difficulty == "Hard")
         {
-            maxIterations = 1;
+            maxIterations = 5;
         }
 
         Guesses.Add(GuessedCar);
