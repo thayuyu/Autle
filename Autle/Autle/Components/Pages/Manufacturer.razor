@@ -4,18 +4,82 @@
 <PageTitle>Manufacturer Mode</PageTitle>
 
 <style>
-	body{
-		align-content: center;
-	}
+    body{
+        text-align: center;
+    }
 </style>
 
 
 <h1>Guess the Manufacturer</h1>
 
-<img src="https://www.brillen-sehhilfen.de/optik/image/weiss-white.png" height="500" width="500" class="border border-4" />
+<div class="picture_div">
+@* @if (true)
+{
+    <img src="https://www.brillen-sehhilfen.de/optik/image/weiss-white.png" height="500" width="500" class="border border-4" />
+
+}
+else
+{ *@
+    <img src="/images/@SecretManufacturer.PathStage1" height="500" width="500" class="border border-4" />
+
+@* } *@
+</div>
+
+<div class="select_div">
+  <select class="Manu_select" @onchange="Guess">
+        <option value="" selected disabled hidden>Guess here!</option>
+        @foreach (CarManufacturer manufacturer in AllManufacturers)
+        {
+            <option value="@manufacturer.Name">@manufacturer.Name</option>
+        }
+    </select>
+</div>
+
 
 
 @code {
+    static List<CarManufacturer> AllManufacturers = GetList();
+    CarManufacturer SecretManufacturer = GetRandomManufacturer(AllManufacturers);
+    string selectedManuf = "";
+
+    List<CarManufacturer> Guesses = new List<CarManufacturer>();
 
 
+
+    public static List<CarManufacturer> GetList()
+    {
+        List<CarManufacturer> list = new List<CarManufacturer>
+        {
+            new CarManufacturer(1, "Abarth", "abarth.png"),
+            // new CarManufacturer(2, "name", "path1")
+
+        };
+        return list;
+    }
+
+    public void Guess(ChangeEventArgs e)
+    {
+        selectedManuf = e.Value.ToString();
+
+
+    }
+
+    static public CarManufacturer GetRandomManufacturer(List<CarManufacturer> list)
+    {
+        Random i = new Random();
+        int index = i.Next(0, list.Count);
+        return list[index];
+    }
+
+    public bool ListContains(List<CarManufacturer> list, string manufacturer)
+    {
+        foreach (var item in list)
+        {
+            if (manufacturer == item.Name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
