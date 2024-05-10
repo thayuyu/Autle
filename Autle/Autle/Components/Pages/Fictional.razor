@@ -167,7 +167,7 @@
                 <th>Car Class</th>
                 <th>Seats</th>
                 <th>Top Speed</th>
-                <th>Realesed in Update</th>
+                <th>Realesed in </th>
                 <th>Released in </th>
                 <th>Can be bought in</th>
             </tr>
@@ -215,7 +215,7 @@
                             @if (item.Seats - SecretCar.Seats <= 2)
                             {
                                 <td class="nearcorrect">
-                                    @item.Seats.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    @item.Seats.ToString()<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
                                     </svg>
                                 </td>
@@ -223,7 +223,7 @@
                             else
                             {
                                 <td class="incorrect">
-                                    @item.Seats.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                    @item.Seats.ToString()<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
                                     </svg>
                                 </td>
@@ -234,7 +234,7 @@
                             @if (SecretCar.Seats - item.Seats <= 2)
                             {
                                 <td class="nearcorrect">
-                                    @item.Seats.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    @item.Seats.ToString()<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
                                     </svg>
                                 </td>
@@ -242,7 +242,7 @@
                             else
                             {
                                 <td class="incorrect">
-                                    @item.Seats.ToString() HP <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    @item.Seats.ToString()<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
                                     </svg>
                                 </td>
@@ -368,8 +368,8 @@
     }
     else if (IsWin == 2)
     {
-        <div class="lose-message">You lost, want to try again?</div>
-        <button class="btn" @onclick="DifReset">Have another go!</button>
+        <div class="lose-message">You lost, want to try again? The Car was: @SecretCar.Name</div>
+        <button class="btn" @onclick="DifReset">Have another go! </button>
         <button class="btn" @onclick="Reset">Change Difficulty?</button>
 
 
@@ -448,22 +448,57 @@
         // TODO: Insert here data
         List<FictionalCar> list = new List<FictionalCar>
         {
-            new FictionalCar(1, "Zentorno", "Pegassi", "Super", 2, 209.80, "High Life", 2014, "Legendary Motorsports"),
-            new FictionalCar(2, "Tempesta", "Pegassi", "Super", 2, 207.20, "Import / Export", 2016, "Legendary Motorsports"),
-            new FictionalCar(3, "Vagner", "Dewbauchee", "Super", 2, 212.34, "Gunrunning", 2017, "Legendary Motorsports"),
-            new FictionalCar(4, "Itali GTO", "Grotti", "Sports", 2, 212.72, "Arena War", 2018, "Legendary Motorsports" ),
-            new FictionalCar(5, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(6, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(7, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(8, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(9, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(10, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(11, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(12, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(13, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(14, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-            new FictionalCar(15, "Name", "Brand", "Class", 0, 000.00, "Update", 0000, "Website" ),
-        };
+            new FictionalCar(1,  "Panto", "Benefactor", "Compacts", 2, 174.20, "The \"I\'m Not a Hipster\" Update", 2014, "Southern San Andreas Super Autos" ),
+            new FictionalCar(2,  "Club", "BF", "Compacts", 2, 184.75, "Los Santos Summer Special", 2020, "Southern San Andreas Super Autos" ),
+            new FictionalCar(3,  "Ramp Buggy", "BF", "Off-Road", 2, 197.95, "Import / Export", 2016, "Warstock Cache & Carry" ),
+            new FictionalCar(4,  "Banshee 900R", "Bravado", "Super", 2, 172.20, "Drop Zone Update", 2016, "Benny's Original Motor Works" ),
+            new FictionalCar(5,  "Buffalo", "Bravado", "Sports", 4, 191.35, "On Release", 2013, "Southern San Andreas Super Autos" ),
+            new FictionalCar(6,  "Marshall", "Cheval", "Off-Road", 2, 145.16, "On Release", 2013, "Warstock Cache & Carry" ),
+            new FictionalCar(7,   "Vagner", "Dewbauchee", "Super", 2, 212.34, "Gunrunning", 2017, "Legendary Motorsports"),
+            new FictionalCar(8,  "Akuma", "Dinka", "Motorcycles", 2, 191.35, "On Release", 2013, "Southern San Andreas Super Autos" ),
+            new FictionalCar(9, "Jester RR", "Dinka", "Sports", 2, 201.25, "Los Santos Tuners", 2021, "Legendary Motorsports" ),
+            new FictionalCar(10,  "Sugoi", "Dinka", "Sports", 4, 205.87, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+            new FictionalCar(11,   "Cheetah", "Grotti", "Super", 2, 201.91, "On Release", 2013, "Legendary Motorsports" ),
+            new FictionalCar(12,   "Itali GTO", "Grotti", "Sports", 2, 212.72, "Arena War", 2018, "Legendary Motorsports" ),
+            new FictionalCar(13,   "Itali RSX", "Grotti", "Sports", 2, 215.36, "The Cayo Perico Heist", 2020, "Legendary Motorsports" ),
+            new FictionalCar(14,  "Dump", "HVY", "Industrial", 1,  49.9, "On Release", 2013, "Warstock Cache & Carry" ),
+            new FictionalCar(15,  "Insurgent", "HVY", "Off-Road", 6, 171.56, "Heists", 2014, "Warstock Cache & Carry" ),
+            new FictionalCar(16,   "Duke O'Death", "Imponte", "Muscle", 2, 184.27 , "Cunning Stunts: Special Vehicle Circuit", 2017, "Warstock Cache & Carry" ),
+            new FictionalCar(17,  "Ruiner 2000", "Imponte", "Muscle", 2, 200.59, "Import / Export", 2016, "Warstock Cache & Carry" ),
+            new FictionalCar(18,  "Futo", "Karin", "Sports", 2, 191.91, "On Release", 2013, "Southern San Andreas Super Autos" ),
+            new FictionalCar(19,  "Kuruma", "Karin", "Sports", 4, 184.75, "Heists", 2014, "Southern San Andreas Super Autos" ),
+            new FictionalCar(20,  "Sultan RS", "Karin", "Super", 2, 195.31, "Drop Zone Update", 2016, "Benny's Original Motor Works" ),
+            new FictionalCar(21,   "Furore GT", "Lampadati", "Sports", 2, 200.59, "Last Team Standing Update", 2014, "Legendary Motorsports" ),
+            new FictionalCar(22,  "Manchez Scout", "Maibatsu", "Motorcycles", 1, 225, "The Cayo Perico Heist", 2020, "Warstock Cache & Carry" ),
+            new FictionalCar(23,  "Asbo", "Maxwell", "Compacts", 2, 166.28, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+            new FictionalCar(24,  "Caddy", "Nagasaki", "Utility", 2, 65.00, "On Release", 2013, "Not Purchasable" ),
+            new FictionalCar(25,  "Jugular", "Ocelot", "Sports", 4, 207.85, "The Diamond Casino & Resort", 2019, "Legendary Motorsport" ),
+            new FictionalCar(26,  "Pariah", "Ocelot", "Sports", 2, 218.87, "The Doomsday Heist", 2017, "Legendary Motorsport" ),
+            new FictionalCar(27,  "Stromberg", "Ocelot", "Sports Classics", 2, 197.95, "The Doomsday Heist", 2017, "Warstock Cache & Carry" ),
+            new FictionalCar(28,  "Entity XF", "Överflöd", "Super", 2, 204.55, "On Release", 2013, "Legendary Motorsports" ),
+            new FictionalCar(29,  "Tyrant", "Överflöd", "Super", 2, 217.74, "Southern San Andreas Super Sport Series", 2018, "Legendary Motorsports" ),
+            new FictionalCar(30,  "Bati 801", "Pegassi", "Motorcycles", 2, 197.95, "On Release", 2013, "Southern San Andreas Super Autos" ),
+            new FictionalCar(31,  "Infernus", "Pegassi", "Super", 2, 197.95, "On Release", 2013, "Legendary Motorsport" ),
+            new FictionalCar(32,  "Oppressor", "Pegassi", "Motorcycles", 1, 195.31, "Gunrunning", 2017, "Warstock Cache & Carry" ),
+            new FictionalCar(33,   "Tempesta", "Pegassi", "Super", 2, 207.20, "Import / Export", 2016, "Legendary Motorsports"),
+            new FictionalCar(34,   "Zentorno", "Pegassi", "Super", 2, 209.80, "High Life", 2014, "Legendary Motorsports"),
+            new FictionalCar(35,  "Comet", "Pfister", "Sports", 2, 207.85, "On Release", 2013, "Legendary Motorsport" ),
+            new FictionalCar(36,  "Neon", "Pfister", "Sports", 4, 206.53, "The Doomsday Heist", 2017, "Legendary Motorsport" ),
+            new FictionalCar(37,  "Deveste Eight","Principe", "Super", 2, 224.34, "Arena War", 2019, "Legendary Motorsports" ),
+            new FictionalCar(38,  "Faggio", "Principe", "Motorcycles", 2, 166.16, "On Release", 2013, "Southern San Andreas Super Autos" ),
+            new FictionalCar(39,  "Lectro", "Principe", "Motorcycles", 2, 175.82, "Heists", 2014, "Legendary Motorsports" ),
+            new FictionalCar(40,  "Tyrus", "Progen", "Super", 2, 212.47, "Cunning Stunts", 2016, "Legendary Motorsports" ),
+            new FictionalCar(41,  "Cheburek", "RUNE", "Sports Classics", 4, 174.61, "Southern San Andreas Super Sport Series", 2018, "Southern San Andreas Super Autos" ),
+            new FictionalCar(42,  "Zhaba", "RUNE", "Off-Road", 4, 122.07, "The Diamond Casino & Resort", 2019, "Warstock Cache & Carry" ),
+            new FictionalCar(43,  "Hakuchou Drag", "Shitzu", "Motorcycles", 2, 209.83, "Bikers", 2016, "Legendary Motorsport" ),
+            new FictionalCar(44,  "Adder", "Truffade", "Super", 2, 194.00 , "On Release", 2013, "Legendary Motorsports" ),
+            new FictionalCar(45,  "Nero Custom", "Truffade", "Super", 2, 211.40, "Import / Export", 2016, "Benny's Original Motor Works" ),
+            new FictionalCar(46,  "SC1", "Übermacht", "Super", 2, 209.83, "The Doomsday Heist", 2017, "Legendary Motorsports" ),
+            new FictionalCar(47,  "Zion Classic", "Übermacht", "Sports Classics", 2, 196.63, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+            new FictionalCar(48,  "Nebula Turbo", "Vulcar", "Sports Classics", 2, 138.00, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+            new FictionalCar(49,  "Dynasty", "Weeny", "Sports Classics", 4, 155.72, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+            new FictionalCar(50,  "Issi Sport", "Weeny", "Sports", 2, 195.31, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
+};
 
         return list;
     }
@@ -491,6 +526,7 @@
         }
 
         Guesses.Add(GuessedCar);
+        // Guesses = Guesses.OrderBy(car => car.Manufacturer).ThenBy(car => car.Name);
 
         if (GuessedCar.CID == SecretCar.CID)
         {
@@ -557,7 +593,7 @@
     public void ChangeSelSize(ChangeEventArgs e)
     {
         selectedCarName = e.Value.ToString();
-        selSize = 4;
+        selSize = 7;
     }
 
     /// <summary>
