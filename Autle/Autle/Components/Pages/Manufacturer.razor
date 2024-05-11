@@ -4,45 +4,283 @@
 <PageTitle>Manufacturer Mode</PageTitle>
 
 <style>
-    body{
-        text-align: center;
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
     }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+
+    .left-side {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .right-side {
+        flex: 1;
+    }
+
+    .select_div {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .error {
+        margin-top: 20px;
+        color: #E34234;
+    }
+
+    .tableclass {
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        th:first-child, td:first-child {
+            width: 20%;
+        }
+
+        th:last-child, td:last-child {
+            width: 80%;
+        }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .correct {
+        background-color: #4CAF50;
+    }
+
+    .incorrect {
+        background-color: #E34234;
+    }
+
+    .Manu_select {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 200px;
+        font-size: 16px;
+    }
+
+    .border {
+        border: 4px solid #f2f2f2;
+    }
+
+    .tableimage {
+        width: 50px;
+        height: auto;
+    }
+
+    button {
+        padding: 10px 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+    .win-message {
+        color: #4CAF50;
+    }
+
+    .lose-message {
+        color: #E34234;
+    }
+
+    .win-button {
+        background-color: #4CAF50;
+    }
+
+    .lose-button {
+        background-color: #E34234;
+    }
+
+        .win-button:hover, .lose-button:hover {
+            background-color: #45a049;
+        }
+
+    .large-select {
+        width: auto;
+        height: 200px;
+        font-size: 50px;
+    }
+    .select-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .ghost{
+      opacity: .5;
+    }
+
 </style>
-
-
-<h1>Guess the Manufacturer</h1>
-
-<div class="picture_div">
-@* @if (true)
+@if (difficulty == "")
 {
-    <img src="https://www.brillen-sehhilfen.de/optik/image/weiss-white.png" height="500" width="500" class="border border-4" />
-
+  <div class="select-container">
+    <select @bind="difficulty" class="large-select">
+        <option value="" selected disabled hidden>Choose a difficulty before starting the game!</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
 }
 else
-{ *@
-    <img src="/images/@SecretManufacturer.PathStage1" height="500" width="500" class="border border-4" />
+{
+    <div class="container">
+        <div class="left-side">
+            <h1>Guess the Manufacturer</h1>
 
-@* } *@
-</div>
+            <div class="picture_div">
+                @if (stage == 1)
+                {
+                    <img src="/images/@SecretManufacturer.PathStage1" height="500" width="500" class="border border-4" />
+                }
+                else if (stage == 2)
+                {
+                    <img src="/images/@SecretManufacturer.PathStage2" height="500" width="500" class="border border-4" />
+                }
+                else if (stage == 3)
+                {
+                    <img src="/images/@SecretManufacturer.PathStage3" height="500" width="500" class="border border-4" />
+                }
+            </div>
 
-<div class="select_div">
-  <select class="Manu_select" @onchange="Guess">
-        <option value="" selected disabled hidden>Guess here!</option>
-        @foreach (CarManufacturer manufacturer in AllManufacturers)
-        {
-            <option value="@manufacturer.Name">@manufacturer.Name</option>
-        }
-    </select>
-</div>
+            @if (gamestatus == 0)
+            {
+                <div class="select_div">
+                    <select class="Manu_select" @onchange="SelectChange">
+                        <option value="" selected disabled hidden>Guess here!</option>
+                        @foreach (CarManufacturer manufacturer in AllManufacturers)
+                        {
+                            <option value="@manufacturer.Name">@manufacturer.Name</option>
+                        }
+                    </select>
+                </div>
+                <button @onclick="SubmitGuess">Submit</button>
+                @if (ghost)
+                {
+                    <div class="ghost">Think about it well...</div>
+                }
+            }
+            else
+            {
+                <div class="select_div">
+                    <select class="Manu_select" @onchange="SelectChange" disabled>
+                        <option value="" selected disabled hidden>Guess here!</option>
+                        @foreach (CarManufacturer manufacturer in AllManufacturers)
+                        {
+                            <option value="@manufacturer.Name">@manufacturer.Name</option>
+                        }
+                    </select>
+                </div>
+                <button @onclick="SubmitGuess" disabled>Submit</button>
+            }
+            <div>
+                @if (gamestatus == 1)
+                {
+                    <div class="win-message">Congratulations! You won!</div>
+                    <button class="win-button" @onclick="Reset">Play again!</button>
+                    <button class="win-button" @onclick="CompleteReset">Too easy?</button>
+                }
+                @if (gamestatus == 2)
+                {
+                    <div class="lose-message">You ran our of guesses! It was @SecretManufacturer.Name!</div>
+                    <button class="lose-button" @onclick="Reset">Want to try again?</button>
+                    <button class="lose-button" @onclick="CompleteReset">Too hard?</button>
+                }
+                @if (alreadyGuessed)
+                {
+                    <div class="error">You already guessed this. Please choose another option.</div>
+                }
+                @if (!carchosen)
+                {
+                    <div class="error">Please select a car manufacturer.</div>
+                }
+            </div>
+        </div>
+          <div>@maxguesses</div>
 
+        <div class="right-side">
 
+            <div class="tableclass">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Logo</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (selectedManuf != null)
+                        {
+                            foreach (var item in Guesses)
+                            {
+                                <tr>
+                                    @if (item.ID == SecretManufacturer.ID)
+                                    {
+                                        <td class="correct"><img src="/images/@item.PathStage3" class="tableimage" /></td>
+                                        <td class="correct">@item.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="incorrect"><img src="/images/@item.PathStage3" class="tableimage" /></td>
+                                        <td class="incorrect">@item.Name</td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
 
 @code {
     static List<CarManufacturer> AllManufacturers = GetList();
-    CarManufacturer SecretManufacturer = GetRandomManufacturer(AllManufacturers);
-    string selectedManuf = "";
-
     List<CarManufacturer> Guesses = new List<CarManufacturer>();
+    CarManufacturer SecretManufacturer = GetRandomManufacturer(AllManufacturers);
+    string selectedManufname = "";
+    CarManufacturer selectedManuf = null;
+    bool alreadyGuessed = false;
+    bool carchosen = true;
+    uint stage = 1;
+    uint gamestatus = 0;
+    string difficulty = "";
+    int maxguesses = 0;
+    int i = 0;
+    bool ghost = false;
 
 
 
@@ -50,18 +288,111 @@ else
     {
         List<CarManufacturer> list = new List<CarManufacturer>
         {
-            new CarManufacturer(1, "Abarth", "abarth.png"),
-            // new CarManufacturer(2, "name", "path1")
+            new CarManufacturer(1, "Abarth", "abarth.png", "abarth2.jpg", "abarth3.jpg"),
+            new CarManufacturer(2, "Lamborghini", "lambo.jpg", "lambo2.jpg", "lambo3.jpg"),
+            new CarManufacturer(3, "Ferrara", "Ferrari.jpg", "Ferrari2.jpg", "Ferrari3.jpg"),
+            // new CarManufacturer(2, "name", "path1"),
+            // new CarManufacturer(2, "name", "path1"),
 
         };
         return list;
     }
 
-    public void Guess(ChangeEventArgs e)
+    public void CompleteReset()
     {
-        selectedManuf = e.Value.ToString();
+        SecretManufacturer = GetRandomManufacturer(AllManufacturers);
+        selectedManufname = "";
+        selectedManuf = null;
+        alreadyGuessed = false;
+        carchosen = true;
+        stage = 1;
+        gamestatus = 0;
+        Guesses = new List<CarManufacturer>();
+        difficulty = "";
+        maxguesses = 0;
+        i = 0;
+        ghost = false;
+    }
+
+    public void Reset()
+    {
+        SecretManufacturer = GetRandomManufacturer(AllManufacturers);
+        selectedManufname = "";
+        selectedManuf = null;
+        alreadyGuessed = false;
+        carchosen = true;
+        stage = 1;
+        gamestatus = 0;
+        i = 0;
+        Guesses = new List<CarManufacturer>();
+        ghost = false;
+    }
 
 
+    public void SubmitGuess()
+    {
+        carchosen = true;
+        if (selectedManufname == "")
+        {
+            carchosen = false;
+        }
+        else
+        {
+            alreadyGuessed = false;
+            if (!ListContains(Guesses, selectedManufname))
+            {
+                selectedManuf = AllManufacturers.Find(manufacturer => manufacturer.Name == selectedManufname);
+                Guesses.Add(selectedManuf);
+                if (i < maxguesses || maxguesses == -1)
+                {
+                    i++;
+                    if (selectedManuf.ID == SecretManufacturer.ID)
+                    {
+                        gamestatus = 1;
+                        stage = 3;
+                    }
+                    else
+                    {
+                        if (stage < 3)
+                        {
+                            stage++;
+                        }
+                    }
+                }
+                else
+                {
+                    gamestatus = 2;
+                }
+            }
+            else
+            {
+                alreadyGuessed = true;
+            }
+        }
+    }
+
+    public void SelectChange(ChangeEventArgs e)
+    {
+        selectedManufname = e.Value.ToString();
+        RandomMessage();
+
+        if (difficulty == "easy")
+        {
+            maxguesses = -1;
+        }
+        else if (difficulty == "medium")
+        {
+            maxguesses = 10;
+        }
+        else if (difficulty == "hard")
+        {
+            maxguesses = 1;
+        }
+    }
+
+    public void DifficultyChange(ChangeEventArgs e)
+    {
+        difficulty = e.Value.ToString();
     }
 
     static public CarManufacturer GetRandomManufacturer(List<CarManufacturer> list)
@@ -81,5 +412,14 @@ else
             }
         }
         return false;
+    }
+
+    public void RandomMessage()
+    {
+        Random i = new Random();
+        if (i.Next(1,100) == 17)
+        {
+            ghost = true;
+        }
     }
 }
