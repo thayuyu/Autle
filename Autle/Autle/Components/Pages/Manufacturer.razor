@@ -229,10 +229,8 @@ else
                 }
             </div>
         </div>
-          <div>@maxguesses</div>
 
         <div class="right-side">
-
             <div class="tableclass">
                 <table>
                     <thead>
@@ -343,26 +341,24 @@ else
             {
                 selectedManuf = AllManufacturers.Find(manufacturer => manufacturer.Name == selectedManufname);
                 Guesses.Add(selectedManuf);
-                if (i < maxguesses || maxguesses == -1)
+                if (selectedManuf.ID == SecretManufacturer.ID)
                 {
-                    i++;
-                    if (selectedManuf.ID == SecretManufacturer.ID)
-                    {
-                        gamestatus = 1;
-                        stage = 3;
-                    }
-                    else
-                    {
-                        if (stage < 3)
-                        {
-                            stage++;
-                        }
-                    }
+                    gamestatus = 1;
+                    stage = 3;
                 }
                 else
                 {
-                    gamestatus = 2;
+                    i++;
+                    if (stage < 3)
+                    {
+                        stage++;
+                    }
+                    if (i >= maxguesses && maxguesses != -1)
+                    {
+                            gamestatus = 2;
+                    }
                 }
+                
             }
             else
             {
