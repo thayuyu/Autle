@@ -160,7 +160,6 @@ else
     <div class="container">
         <div class="left-side">
             <h1>Guess the Manufacturer</h1>
-
             <div class="picture_div">
                 @if (stage == 1)
                 {
@@ -211,7 +210,14 @@ else
                 {
                     <div class="win-message">Congratulations! You won!</div>
                     <button class="win-button" @onclick="Reset">Play again!</button>
-                    <button class="win-button" @onclick="CompleteReset">Too easy?</button>
+                    @if(difficulty != "hard")
+                    {
+                        <button class="win-button" @onclick="CompleteReset">Too easy?</button>
+                    }
+                    else
+                    {
+                        <button class="win-button" @onclick="CompleteReset">Change difficulty?</button>
+                    }
                 }
                 @if (gamestatus == 2)
                 {
@@ -358,7 +364,6 @@ else
                             gamestatus = 2;
                     }
                 }
-                
             }
             else
             {
