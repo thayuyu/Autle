@@ -161,15 +161,15 @@ else
         <div class="left-side">
             <h1>Guess the Manufacturer</h1>
             <div class="picture_div">
-                @if (stage == 1 )
+                @if (difficulty == "hard")
                 {
                     <img src="/images/@SecretManufacturer.PathStage1" height="500" width="500" class="border border-4" />
                 }
-                else if (stage == 2)
+                else if (difficulty == "medium")
                 {
                     <img src="/images/@SecretManufacturer.PathStage2" height="500" width="500" class="border border-4" />
                 }
-                else if (stage == 3)
+                else if (difficulty == "easy")
                 {
                     <img src="/images/@SecretManufacturer.PathStage3" height="500" width="500" class="border border-4" />
                 }
@@ -292,11 +292,17 @@ else
     {
         List<CarManufacturer> list = new List<CarManufacturer>
         {
-            new CarManufacturer(1, "Abarth", "abarth.png", "abarth2.jpg", "abarth3.jpg"),
-            new CarManufacturer(2, "Lamborghini", "lambo.jpg", "lambo2.jpg", "lambo3.jpg"),
-            new CarManufacturer(3, "Ferrara", "Ferrari.jpg", "Ferrari2.jpg", "Ferrari3.jpg"),
-            // new CarManufacturer(2, "name", "path1"),
-            // new CarManufacturer(2, "name", "path1"),
+            new CarManufacturer(1, "Abarth", "abarth3.png", "abarth2.png", "abarth.png"),
+            new CarManufacturer(2, "Tesla", "tesla3.png", "tesla2.png", "tesla.png"),
+            new CarManufacturer(3, "Toyota", "toyota3.png", "toyota2.png", "toyota.png"),
+            new CarManufacturer(4, "Ford", "ford3.png", "ford2.png", "ford.png"),
+            new CarManufacturer(5, "Honda", "honda3.png", "honda2.png", "honda.png"),
+            new CarManufacturer(6, "BMW", "bmw3.png", "bmw2.png", "bmw.png"),
+            new CarManufacturer(7, "Jeep", "jeep3.png", "jeep2.png", "jeep.png"),
+            new CarManufacturer(8, "Hyundai", "hyundai3.png", "hyundai2.png", "hyundai.png"),
+            new CarManufacturer(9, "Subaru", "subaru3.png", "subaru2.png", "subaru.png"),
+            new CarManufacturer(10, "Porsche", "porsche3.png", "porsche2.png", "porsche.png"),
+            new CarManufacturer(11, "Audi", "audi3.png", "audi2.png", "audi.png"),
 
         };
         return list;
