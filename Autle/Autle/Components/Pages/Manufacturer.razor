@@ -1,7 +1,7 @@
-﻿@page "/manufacturer"
+﻿@page "/brands"
 @rendermode InteractiveServer
 
-<PageTitle>Manufacturer Mode</PageTitle>
+<PageTitle>Brands Mode</PageTitle>
 
 <style>
     body {
@@ -144,9 +144,9 @@
     }
 
     .responsive-img {
-        width: 100%; /* or any other width you prefer */
-        height: auto; /* This ensures the aspect ratio is maintained */
-        max-width: 500px; /* Optional: to limit the maximum width */
+        width: 100%; 
+        height: auto; 
+        max-width: 500px; 
     }
 
 </style>
@@ -165,7 +165,7 @@ else
 {
     <div class="container">
         <div class="left-side">
-            <h1>Guess the Manufacturer</h1>
+            <h1>Guess the Brand</h1>
             <div class="picture_div">
                 @if (difficulty == "hard")
                 {
@@ -237,7 +237,7 @@ else
                 }
                 @if (!carchosen)
                 {
-                    <div class="error">Please select a car manufacturer.</div>
+                    <div class="error">Please select a brand.</div>
                 }
             </div>
         </div>
