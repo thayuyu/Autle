@@ -1,7 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 
-
 <PageTitle>Autle</PageTitle>
 
 <h1>Welcome to Autle</h1>
@@ -398,6 +397,7 @@ else if (IsWin == 2)
 
 
 @code{
+    // Variables declaration
     static public List<Car> CarList = GetCars();
     Car SecretCar = GetRandomCar(CarList);
     public List<Car> Guesses = new List<Car>();
@@ -414,7 +414,7 @@ else if (IsWin == 2)
 
 
     /// <summary>
-    /// Resets all variables to their starting value
+    /// Resets all variables to their starting value.
     /// </summary>
     public void Reset()
     {
@@ -450,9 +450,9 @@ else if (IsWin == 2)
     }
 
     ///  <summary>
-    /// Function to get all cars that are saved in the code
+    /// Function to get all cars that are saved in the code.
     /// </summary>
-    /// <returns> List<Car> with all the cars with their respective information </returns>
+    /// <returns> List<Car> with all the cars with their respective information.</returns>
     static public List<Car> GetCars()
     {
         // TODO: Insert here data
@@ -507,10 +507,13 @@ else if (IsWin == 2)
             new Car(47, "NSX", "Honda", "Sports car", 573, "V6", 2, 2017, 3.2),
             new Car(48, "Civic Type R", "Honda", "Sports car", 316, "I4", 5, 2023, 5.4),
             new Car(49, "I8", "BMW", "Sports car", 369, "I3", 2, 2014, 4.4),
-            new Car(50, "I3", "BMW", "Supermini", 167.5, "Electric", 5, 7.3),
+            new Car(50, "I3", "BMW", "Supermini", 167.5, "Electric", 5, 2014, 7.3),
         };
 
-        return list;
+
+        List<Car> sortedList = list.OrderBy(car => car.Manufacturer).ThenBy(car => car.Name).ToList();
+
+        return sortedList;
     }
 
     /// <summary>
@@ -560,10 +563,10 @@ else if (IsWin == 2)
 
 
     /// <summary>
-    /// selects random Car from given list.
+    /// Selects random car from given list.
     /// </summary>
     /// <param name="list">List where the random car will get chosen.</param>
-    /// <returns>A random Car from the given list.</returns>
+    /// <returns>A random car from the given list.</returns>
     static public Car GetRandomCar(List<Car> list)
     {
         Random i = new Random();
@@ -606,7 +609,7 @@ else if (IsWin == 2)
     }
 
     /// <summary>
-    /// basic function to check if a list contains the chosen car name
+    /// Basic function to check if a list contains the chosen car name
     /// </summary>
     /// <param name="list">list where the car has to be searched</param>
     /// <param name="car">name of the car that should be looked for</param>

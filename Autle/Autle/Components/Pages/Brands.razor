@@ -1,7 +1,7 @@
-﻿@page "/manufacturer"
+﻿@page "/brands"
 @rendermode InteractiveServer
 
-<PageTitle>Manufacturer Mode</PageTitle>
+<PageTitle>Brands Mode</PageTitle>
 
 <style>
     body {
@@ -144,9 +144,9 @@
     }
 
     .responsive-img {
-        width: 100%; /* or any other width you prefer */
-        height: auto; /* This ensures the aspect ratio is maintained */
-        max-width: 500px; /* Optional: to limit the maximum width */
+        width: 100%; 
+        height: auto; 
+        max-width: 500px; 
     }
 
 </style>
@@ -165,7 +165,7 @@ else
 {
     <div class="container">
         <div class="left-side">
-            <h1>Guess the Manufacturer</h1>
+            <h1>Guess the Brand</h1>
             <div class="picture_div">
                 @if (difficulty == "hard")
                 {
@@ -237,7 +237,7 @@ else
                 }
                 @if (!carchosen)
                 {
-                    <div class="error">Please select a car manufacturer.</div>
+                    <div class="error">Please select a brand.</div>
                 }
             </div>
         </div>
@@ -277,7 +277,9 @@ else
     </div>
 }
 
-@code {
+@code{
+
+    // Variables declaration
     static List<CarManufacturer> AllManufacturers = GetList();
     List<CarManufacturer> Guesses = new List<CarManufacturer>();
     CarManufacturer SecretManufacturer = GetRandomManufacturer(AllManufacturers);
@@ -293,7 +295,10 @@ else
     bool ghost = false;
 
 
-
+    /// <summary>
+    /// Function to get all the brands in the code.
+    /// </summary>
+    /// <returns>The List with all the brands and their respective image paths.</returns>
     public static List<CarManufacturer> GetList()
     {
         List<CarManufacturer> list = new List<CarManufacturer>
@@ -333,6 +338,9 @@ else
         return list;
     }
 
+    /// <summary>
+    /// Resets whole gamemode.
+    /// </summary>
     public void CompleteReset()
     {
         SecretManufacturer = GetRandomManufacturer(AllManufacturers);
@@ -349,6 +357,9 @@ else
         ghost = false;
     }
 
+    /// <summary>
+    /// Similar to CompleteReset() but keeps the chosen difficulty.
+    /// </summary>
     public void Reset()
     {
         SecretManufacturer = GetRandomManufacturer(AllManufacturers);
@@ -363,7 +374,9 @@ else
         ghost = false;
     }
 
-
+    /// <summary>
+    /// Function that gets called when a brand has been guessed, it checks if the brand has already been guessed, if the brand is the secret one and if the player still has guesses left.
+    /// </summary>
     public void SubmitGuess()
     {
         carchosen = true;
@@ -392,7 +405,7 @@ else
                     }
                     if (i >= maxguesses && maxguesses != -1)
                     {
-                            gamestatus = 2;
+                        gamestatus = 2;
                     }
                 }
             }
@@ -403,6 +416,10 @@ else
         }
     }
 
+    /// <summary>
+    /// Function that gets called if a brand has been selected.
+    /// </summary>
+    /// <param name="e">Name of the brand</param>
     public void SelectChange(ChangeEventArgs e)
     {
         selectedManufname = e.Value.ToString();
@@ -422,18 +439,32 @@ else
         }
     }
 
+    /// <summary>
+    /// Function that detects when the difficulty gets chosen.
+    /// </summary>
+    /// <param name="e">The name of the difficulty</param>
     public void DifficultyChange(ChangeEventArgs e)
     {
         difficulty = e.Value.ToString();
     }
 
+    /// <summary>
+    /// Selects random brand from given list.
+    /// </summary>
+    /// <param name="list">List where the random brand will get chosen.</param>
+    /// <returns>A random brand from the given list.</returns>
     static public CarManufacturer GetRandomManufacturer(List<CarManufacturer> list)
     {
         Random i = new Random();
         int index = i.Next(0, list.Count);
         return list[index];
     }
-
+    /// <summary>
+    /// Basic function to check if a list contains the chosen brand name.
+    /// </summary>
+    /// <param name="list">list where the brand has to be searched</param>
+    /// <param name="car">name of the brand that should be looked for</param>
+    /// <returns>true if the brand is in the list, false if the list doesn't contain the brand.</returns>
     public bool ListContains(List<CarManufacturer> list, string manufacturer)
     {
         foreach (var item in list)
@@ -446,6 +477,9 @@ else
         return false;
     }
 
+    /// <summary>
+    /// Shhh... secret
+    /// </summary>
     public void RandomMessage()
     {
         Random i = new Random();
