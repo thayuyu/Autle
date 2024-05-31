@@ -3,6 +3,7 @@
 
 
 <PageTitle>Fictional Autle</PageTitle>
+
 <div class="page">
     <h1>GTA <a style="color: green;">V</a> Autle</h1>
 
@@ -386,6 +387,8 @@
 
 </div>
 @code {
+
+    // Variables declaration
     static public List<FictionalCar> CarList = GetCars();
     FictionalCar SecretCar = GetRandomCar(CarList);
     public List<FictionalCar> Guesses = new List<FictionalCar>();
@@ -438,12 +441,12 @@
     }
 
     ///  <summary>
-    /// Function to get all cars that are saved in the code
+    /// Function to get all cars that are saved in the code.
     /// </summary>
-    /// <returns> List<Car> with all the cars with their respective information </returns>
+    /// <returns> List<Car> with all the cars with their respective information.</returns>
     static public List<FictionalCar> GetCars()
     {
-        // TODO: Insert here data
+
         List<FictionalCar> list = new List<FictionalCar>
         {
             new FictionalCar(1,   "Panto", "Benefactor", "Compacts", 2, 174.20, "The \"I\'m Not a Hipster\" Update", 2014, "Southern San Andreas Super Autos" ),
@@ -496,7 +499,7 @@
             new FictionalCar(48,  "Nebula Turbo", "Vulcar", "Sports Classics", 2, 138.00, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
             new FictionalCar(49,  "Dynasty", "Weeny", "Sports Classics", 4, 155.72, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
             new FictionalCar(50,  "Issi Sport", "Weeny", "Sports", 2, 195.31, "The Diamond Casino & Resort", 2019, "Southern San Andreas Super Autos" ),
-};
+        };
 
         return list;
     }
@@ -548,10 +551,10 @@
 
 
     /// <summary>
-    /// selects random Car from given list.
+    /// Selects random car from given list.
     /// </summary>
     /// <param name="list">List where the random car will get chosen.</param>
-    /// <returns>A random Car from the given list.</returns>
+    /// <returns>A random car from the given list.</returns>
     static public FictionalCar GetRandomCar(List<FictionalCar> list)
     {
         Random i = new Random();
@@ -594,7 +597,7 @@
     }
 
     /// <summary>
-    /// basic function to check if a list contains the chosen car name
+    /// Basic function to check if a list contains the chosen car name
     /// </summary>
     /// <param name="list">list where the car has to be searched</param>
     /// <param name="car">name of the car that should be looked for</param>
